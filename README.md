@@ -9,22 +9,20 @@ The site is plain HTML, CSS, and JavaScript with no frontend build step. Resume 
 ### Portfolio
 
 <p align="center">
-  <img src="assets/preview_portfolio.png" alt="Portfolio homepage preview" width="640">
+  <a href="https://thanh0x.com">
+    <img src="assets/preview_portfolio.png" alt="Portfolio homepage preview — click to open thanh0x.com" width="640">
+  </a>
 </p>
 
 ### CV
 
-<p align="center">
-  <img src="assets/preview_cv.png" alt="CV preview (top)" width="640" style="max-height: 420px; object-fit: cover; object-position: top;">
-</p>
+Click the preview to open the PDF.
 
-<details>
-<summary><b>Show full CV preview</b></summary>
-<br>
 <p align="center">
-  <img src="assets/preview_cv.png" alt="CV preview (full)" width="640">
+  <a href="assets/Thanh_VoHuy_Android_Resume.pdf">
+    <img src="assets/preview_cv.png" alt="CV preview — click to open PDF" width="640" style="max-height: 420px; object-fit: cover; object-position: top;">
+  </a>
 </p>
-</details>
 
 ## Project structure
 
