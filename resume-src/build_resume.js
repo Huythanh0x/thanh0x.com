@@ -10,6 +10,7 @@ const { convertDocxFileToPdf } = require("./convert_to_pdf");
 const OUT_DIR = path.join(__dirname, "..", "assets");
 const DOCX_PATH = path.join(OUT_DIR, "Thanh_VoHuy_Android_Resume.docx");
 const PDF_PATH = path.join(OUT_DIR, "Thanh_VoHuy_Android_Resume.pdf");
+const IELTS_CERT_IMAGE_PATH = path.join(OUT_DIR, "IELTS_cerfificate.png");
 
 const NAVY = "1F3A5F";
 const GRAY = "555555";
@@ -45,7 +46,7 @@ const LINKS = {
   // is uploaded to GitHub, e.g. a raw.githubusercontent.com/.../ielts.jpg link
   // (or a GitHub Issue/repo asset URL) — anything that resolves straight to
   // the image so clicking it displays the certificate.
-  ieltsCertImage: "https://github.com/Huythanh0x",
+  ieltsCertImage: IELTS_CERT_IMAGE_PATH,
 
   projects: {
     // PLACEHOLDER: everything below currently points at the main GitHub
