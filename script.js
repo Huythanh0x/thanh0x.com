@@ -10,9 +10,13 @@
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   /* -----------------------------------------------------------
-     Terminal width — kept at least 1.2x the rendered width of
-     .hero-links, since CSS has no way to size an element relative
-     to a sibling's actual layout width.
+     Terminal width.
+     Mobile (<700px): exactly clamp(1.2x hero-links width, 80vw max) —
+     computed directly in JS rather than via CSS min/max-width, since
+     min-width always wins over max-width when they conflict, which
+     was silently forcing the terminal wider than the screen.
+     Desktop (>=700px): leave it alone — governed by the existing
+     33vw/320-420px CSS rule, which is already correct.
   ----------------------------------------------------------- */
   (function syncTerminalWidth() {
     var heroLinks = document.querySelector(".hero-links");
@@ -20,8 +24,13 @@
     if (!heroLinks || !terminal) return;
 
     function apply() {
-      var w = heroLinks.getBoundingClientRect().width;
-      if (w > 0) terminal.style.minWidth = Math.round(w * 1.2) + "px";
+      var heroLinksWidth = heroLinks.getBoundingClientRect().width;
+      if (heroLinksWidth <= 0) return;
+      var desired = heroLinksWidth * 1.2;
+      if (desired > window.innerWidth * 0.9) {
+        desired = window.innerWidth * 0.9;
+      }
+      terminal.style.width = Math.round(desired) + "px";
     }
 
     apply();

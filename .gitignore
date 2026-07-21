@@ -1,0 +1,3 @@
+resume-src/node_modules/*
+.env
+*.docx
