@@ -2,7 +2,8 @@ const fs = require("fs");
 const path = require("path");
 const {
   Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType,
-  BorderStyle, LevelFormat, convertInchesToTwip, ExternalHyperlink
+  BorderStyle, LevelFormat, convertInchesToTwip, ExternalHyperlink,
+  Table, TableRow, TableCell, WidthType,
 } = require("docx");
 const { convertDocxFileToPdf } = require("./convert_to_pdf");
 
@@ -12,6 +13,22 @@ const PDF_PATH = path.join(OUT_DIR, "Thanh_VoHuy_Android_Resume.pdf");
 
 const NAVY = "1F3A5F";
 const GRAY = "555555";
+
+// A4 content width — used so date ranges align flush right in PDF preview.
+const PAGE_MARGIN_TWIP = 860;
+const CONTENT_WIDTH_IN = 8.27 - (2 * PAGE_MARGIN_TWIP) / 1440;
+const CONTENT_WIDTH_TWIP = convertInchesToTwip(CONTENT_WIDTH_IN);
+const FREELANCE_PAGE_BREAK_SPACING = 300; // ~40px at 96dpi
+
+const NO_BORDER = { style: BorderStyle.NONE, size: 0, color: "FFFFFF" };
+const NO_BORDERS = {
+  top: NO_BORDER,
+  bottom: NO_BORDER,
+  left: NO_BORDER,
+  right: NO_BORDER,
+  insideHorizontal: NO_BORDER,
+  insideVertical: NO_BORDER,
+};
 
 // ============================================================
 // LINKS — single place to update every URL used in this document.
@@ -107,15 +124,52 @@ function sectionHeading(text) {
   });
 }
 
-function jobHeader(title, dates) {
-  return new Paragraph({
-    spacing: { before: 120, after: 20 },
-    tabStops: [{ type: "right", position: convertInchesToTwip(6.5) }],
-    children: [
-      new TextRun({ text: title, bold: true, size: 23 }),
-      new TextRun({ text: "\t" + dates, bold: true, size: 21, color: GRAY }),
+function titleDateRow(titleRun, dateRun, opts = {}) {
+  const before = opts.before ?? 120;
+  const after = opts.after ?? 20;
+
+  return new Table({
+    width: { size: CONTENT_WIDTH_TWIP, type: WidthType.DXA },
+    columnWidths: [
+      convertInchesToTwip(CONTENT_WIDTH_IN * 0.72),
+      convertInchesToTwip(CONTENT_WIDTH_IN * 0.28),
+    ],
+    borders: NO_BORDERS,
+    rows: [
+      new TableRow({
+        children: [
+          new TableCell({
+            borders: NO_BORDERS,
+            margins: { top: before, bottom: after, left: 0, right: 80 },
+            children: [
+              new Paragraph({
+                pageBreakBefore: opts.pageBreakBefore ?? false,
+                children: [titleRun],
+              }),
+            ],
+          }),
+          new TableCell({
+            borders: NO_BORDERS,
+            margins: { top: before, bottom: after, left: 0, right: 0 },
+            children: [
+              new Paragraph({
+                alignment: AlignmentType.RIGHT,
+                children: [dateRun],
+              }),
+            ],
+          }),
+        ],
+      }),
     ],
   });
+}
+
+function jobHeader(title, dates, opts = {}) {
+  return titleDateRow(
+    new TextRun({ text: title, bold: true, size: 23 }),
+    new TextRun({ text: dates, bold: true, size: 21, color: GRAY }),
+    opts,
+  );
 }
 
 function jobSubheader(text) {
@@ -256,19 +310,19 @@ const doc = new Document({
       bullet("Stabilized a third-party speech-recognition SDK (Chivox) integration across Activity/Fragment boundaries despite sparse documentation, improving reliability of speech-assessment flows in production."),
       bullet("Migrated legacy Java/Volley code toward Kotlin, MVVM, and structured state management (ViewModel/LiveData), improving JSON-parsing safety and reducing crash-prone code paths."),
 
-      jobHeader("Freelance Software Developer", "Jul 2022 \u2013 Sep 2023"),
+      jobHeader("Freelance Software Developer", "Jul 2022 \u2013 Sep 2023", {
+        pageBreakBefore: true,
+        before: FREELANCE_PAGE_BREAK_SPACING,
+      }),
       jobSubheader("Remote | 2 UK-based clients"),
       bullet("Delivered browser-automation tools and a Chrome extension end-to-end, from requirement analysis through final delivery, including protocol/traffic analysis and account-scale operational tooling."),
 
       sectionHeading("Education"),
-      new Paragraph({
-        spacing: { after: 20 },
-        tabStops: [{ type: "right", position: convertInchesToTwip(6.5) }],
-        children: [
-          new TextRun({ text: "University of Information Technology \u2013 VNUHCM", bold: true, size: 22 }),
-          new TextRun({ text: "\tSep 2019 \u2013 Sep 2022", size: 22, color: GRAY }),
-        ],
-      }),
+      titleDateRow(
+        new TextRun({ text: "University of Information Technology \u2013 VNUHCM", bold: true, size: 22 }),
+        new TextRun({ text: "Sep 2019 \u2013 Sep 2022", bold: true, size: 22, color: GRAY }),
+        { before: 0, after: 20 },
+      ),
       plain("B.S. Computer Science, GPA 3.3", { color: GRAY, italics: true }),
 
       sectionHeading("Certificates"),
