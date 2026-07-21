@@ -1,10 +1,9 @@
 # thanh0x.com
 
-Personal portfolio site for [Thanh Vo Huy](https://thanh0x.com) — Android Developer.
+[My portfolio site](https://thanh0x.com) Android Developer.
 
 The site is plain HTML, CSS, and JavaScript with no frontend build step. Resume PDF generation lives in `resume-src/` and outputs into `assets/`.
 
-**Live site:** [thanh0x.com](https://thanh0x.com)  
 **CV PDF:** [Thanh_VoHuy_Android_Resume.pdf](https://thanh0x.com/assets/Thanh_VoHuy_Android_Resume.pdf)
 
 ## Preview
