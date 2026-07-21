@@ -1,6 +1,4 @@
-# thanh0x.com
-
-[My portfolio site](https://thanh0x.com) Android Developer.
+# [thanh0x.com](https://thanh0x.com) - my portfolio site as an **Android Developer**
 
 The site is plain HTML, CSS, and JavaScript with no frontend build step. Resume PDF generation lives in `resume-src/` and outputs into `assets/`.
 
