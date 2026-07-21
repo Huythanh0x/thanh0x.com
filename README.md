@@ -10,17 +10,15 @@ The site is plain HTML, CSS, and JavaScript with no frontend build step. Resume 
 
 <p align="center">
   <a href="https://thanh0x.com">
-    <img src="assets/preview_portfolio.png" alt="Portfolio homepage preview — click to open thanh0x.com" width="640">
+    <img src="assets/preview_portfolio.png" alt="Portfolio homepage preview — click to open thanh0x.com">
   </a>
 </p>
 
 ### CV
 
-Click the preview to open the PDF.
-
 <p align="center">
   <a href="assets/Thanh_VoHuy_Android_Resume.pdf">
-    <img src="assets/preview_cv.png" alt="CV preview — click to open PDF" width="640" style="max-height: 420px; object-fit: cover; object-position: top;">
+    <img src="assets/preview_cv.png" alt="CV preview — click to open PDF" style="max-height: 420px; object-fit: cover; object-position: top;">
   </a>
 </p>
 
